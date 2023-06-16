@@ -6,3 +6,4 @@ db_connection = {
     "password": "12345",
     "database": "users_db",
 }
+

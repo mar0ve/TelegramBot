@@ -1,15 +1,14 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from text import *
 
-#---Registration---
+# ---Registration---
 
-btnRegistration = KeyboardButton('Регистрация')
-regMarkup = ReplyKeyboardMarkup(resize_keyboard=True).add(btnRegistration)
+btnRegistration = KeyboardButton(regBtnText)
+regMarkup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(btnRegistration)
 
-#---User---
-btnStartWork = KeyboardButton('Начать работу')
-btnEndWork = KeyboardButton("Закончить работу")
-btnReport = KeyboardButton('Отчет')
-btnReportAll = KeyboardButton('Полный отчет')
-userMarkup = ReplyKeyboardMarkup(resize_keyboard=True).add(btnStartWork, btnEndWork)
-
-#
+# ---User---
+btnStartWork = KeyboardButton(startBtnText)
+btnEndWork = KeyboardButton(endBtnText)
+btnReport = KeyboardButton(repBtnText)
+btnReportAll = KeyboardButton(fRepBtnText)
+userMarkup = ReplyKeyboardMarkup(resize_keyboard=True).add(btnStartWork, btnEndWork, btnReport, btnReportAll)

@@ -1,75 +1,73 @@
 import telebot
 from telebot import types
 import mysql.connector
-from DBManager import ManageDatabase
+from tabulate import tabulate
+from db import ManageDatabase
 from config import db_connection, TOKEN
-# Подключение к базе данных MySQL
+from text import *
 
 
-# Инициализация телеграм-бота
 bot = telebot.TeleBot(TOKEN)
 db_manager = ManageDatabase(**db_connection)
 
-# Обработчик команды /start
+
 @bot.message_handler(commands=['start'])
 def handle_start(message):
-    # Получение идентификатора пользователя из сообщения
     chat_id = message.chat.id
-
-    # Проверка, зарегистрирован ли пользователь в базе данных
     user = db_manager.check_user(chat_id)
 
     if user is None:
-        # Если пользователь не зарегистрирован, запрашиваем его данные
-        bot.reply_to(message, "Для регистрации введите ваше имя и фамилию в формате:\n\nИмя Фамилия")
+        bot.reply_to(message, regWelcome)
     else:
-        # Если пользователь уже зарегистрирован, отправляем ему сообщение
-        bot.reply_to(message, "Вы уже зарегистрированы")
-
-        # Отправляем всплывающее окно с командами
+        bot.reply_to(message, alreadyReg)
         show_commands_keyboard(chat_id)
 
 
-# Функция для отображения всплывающего окна с командами
+def generate_report(work_logs):
+    table_data = []
+    for log in work_logs:
+        first_name, last_name, start_time, end_time = log
+        end_time = end_time if end_time is not None else "В процессе"
+        table_data.append([first_name, last_name, start_time, end_time])
+
+    headers = ["Имя", "Фамилия", "Начало дня", "Конец дня"]
+    report = tabulate(table_data, headers, tablefmt="fancy_grid")
+    return report
+
+
 def show_commands_keyboard(chat_id):
-    # Создание клавиатуры с кнопками
     keyboard = telebot.types.ReplyKeyboardMarkup(row_width=2)
     keyboard.add(telebot.types.KeyboardButton("Начать рабочий день"))
     keyboard.add(telebot.types.KeyboardButton("Закончить рабочий день"))
     keyboard.add(telebot.types.KeyboardButton("Отчет"))
     keyboard.add(telebot.types.KeyboardButton("Отчет на всех"))
 
-    # Отправка всплывающего окна с командами пользователю
     bot.send_message(chat_id, "Выберите команду:", reply_markup=keyboard)
 
 
-# Обработчик текстовых сообщений
 @bot.message_handler(func=lambda message: True)
 def handle_text(message):
-    # Получение идентификатора пользователя из сообщения
-    chat_id = message.chat.id
 
-    # Проверка, зарегистрирован ли пользователь в базе данных
+    chat_id = message.chat.id
     user = db_manager.check_user(chat_id)
 
     if user is None:
-        # Если пользователь не зарегистрирован, сохраняем его данные
+
         full_name = message.text.split(" ")
         first_name = full_name[0]
         last_name = full_name[1] if len(full_name) > 1 else ""
         db_manager.register_user(chat_id, first_name, last_name)
 
-        bot.reply_to(message, "Вы успешно зарегистрированы")
+        bot.reply_to(message, applyReg)
     else:
-        # Если пользователь уже зарегистрирован, выполняем действия по началу или окончанию рабочего дня
         if message.text.lower() == "начать рабочий день":
-            # Записываем начало рабочего дня в базу данных
             db_manager.start_workday(user[0])
             bot.reply_to(message, "рабочий день начат")
+
         elif message.text.lower() == "закончить рабочий день":
-            # Записываем окончание рабочего дня в базу данных
             db_manager.end_workday(user[0])
             bot.reply_to(message, "Рабочий день закончен")
+
         elif message.text.lower() == "отчет":
             # Выполнение запроса для получения отчета
             work_logs = db_manager.print_info(chat_id)
@@ -104,10 +102,6 @@ def handle_text(message):
         show_commands_keyboard(chat_id)
 
 
-
-
-
-# Запуск телеграм-бота
 bot.polling()
 
 
