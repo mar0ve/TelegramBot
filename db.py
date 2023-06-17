@@ -99,7 +99,7 @@ class ManageDatabase:
 
     def check_user(self, chat_id):
         self.connect()
-        sql = "SELECT * FROM users WHERE chat_id = %s"
+        sql = "SELECT first_name, last_name, email, phone FROM users WHERE chat_id = %s"
         values = (chat_id,)
         self.query(sql, values)
         user = self.cursor.fetchone()

@@ -8,7 +8,7 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 from text import applyReg
 from markup import userMarkup
 
-TOKEN = '6257891124:AAEmx-mDLRp_jjG7EeAVOpOkHdtWHonFhHg'
+TOKEN = ''
 
 db_connection = {
     "host": "localhost",
