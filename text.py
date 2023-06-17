@@ -7,10 +7,13 @@ applyReg = "Вы успешно зарегистрированы"
 
 # --- report ---
 reportMessage = "Отчет о пребывании на работе:\n\n"
+fullReportMessage = "Отчет о пребывании на работе всех сотрудников:\n\n"
 usrTypeMessage = "Статус: пользователь"
 admTypeMessage = "Статус: администратор"
 sWorkTypeMessage = "Рабочий день начат"
 eWorkTypeMessage = "Рабочий день закончен"
+
+# --- usr edit ---
 
 # --- BUTTONS ---
 
@@ -27,5 +30,11 @@ fRepBtnText = 'Полный отчет'
 startBtnText = 'Начать работу'
 endBtnText = 'Закончить работу'
 usrProfBtnText = 'Профиль сотрудника'
-dataChangeBtnText = 'Редактирование записей'
-notificationsBtnText = 'Настройка напоминаний'
+dataChangeBtnText = 'Редактировать профиль'
+notificationsBtnText = 'Настройка напоминаний(не работает)'
+
+# --- usr edit ---
+nameBtnText = 'Имя Фамилия'
+emailBtnText = 'Email'
+phoneBtnText = 'Телефон'
+successChangeText = 'Данные успешно обновлены'

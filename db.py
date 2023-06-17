@@ -113,6 +113,30 @@ class ManageDatabase:
         self.query(sql, values)
         check = self.cursor.fetchone()
         self.disconnect()
-        return True if check == 'admin' else False
+        return True if check[0] == 'admin' else False
+
+    def change_name(self, chat_id, first_name, last_name):
+        self.connect()
+        sql = "UPDATE users SET first_name = %s, last_name = %s WHERE chat_id = %s"
+        values = (first_name, last_name, chat_id)
+        self.query(sql, values)
+        self.conn.commit()
+        self.disconnect()
+
+    def change_email(self, chat_id, email):
+        self.connect()
+        sql = "UPDATE users SET email = %s WHERE chat_id = %s"
+        values = (email, chat_id)
+        self.query(sql, values)
+        self.conn.commit()
+        self.disconnect()
+
+    def change_phone(self, chat_id, phone):
+        self.connect()
+        sql = "UPDATE users SET phone = %s WHERE chat_id = %s"
+        values = (phone, chat_id)
+        self.query(sql, values)
+        self.conn.commit()
+        self.disconnect()
 
 

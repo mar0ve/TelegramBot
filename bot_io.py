@@ -1,7 +1,7 @@
 import markup as nav
 from config import *
 from text import *
-from fsm import AwaitMessages
+from fsm import AwaitMessages, SetUserData
 
 
 @dp.message_handler(commands=['start',])
@@ -26,12 +26,13 @@ async def handle_message(message: types.Message, state: FSMContext):
 
     if user is None:
         if message.text == regBtnText:
-            await message.answer(regWelcome)
+            await bot.send_message(chat_id, regWelcome)
             await state.set_state(AwaitMessages.fio_add)
 
     else:
         user_state = db_manager.is_admin(chat_id)
-        markup = nav.userMarkup if user_state is False else nav.adminMarkup
+        markup = nav.userMarkup if not user_state else nav.adminMarkup
+
         if message.text == startBtnText:
             db_manager.start_workday(user[0])
             await bot.send_message(chat_id, sWorkTypeMessage,
@@ -57,7 +58,7 @@ async def handle_message(message: types.Message, state: FSMContext):
 
         elif message.text == fRepBtnText:
             work_logs = db_manager.print_all_info()
-            report = "Отчет о пребывании на работе:\n\n"
+            report = "Отчет о пребывании на работе всех сотрудников:\n\n"
             for log in work_logs:
                 first_name = log[0]
                 last_name = log[1]
@@ -75,6 +76,26 @@ async def handle_message(message: types.Message, state: FSMContext):
             phone = profile[5]
             await bot.send_message(chat_id, f"{full_name}\nEmail: {email}\nТелефон: {phone}",
                                    reply_markup=markup)
+
+        elif message.text == dataChangeBtnText:
+            await bot.send_message(chat_id, "Режим редактирования.", reply_markup=nav.edtProfileMarkup)
+        elif message.text == nameBtnText:
+            await bot.send_message(chat_id, "Введите новые Имя и Фамилию (Имя Фамилия):",
+                                       reply_markup=nav.edtProfileMarkup)
+            await state.set_state(SetUserData.fio_set)
+
+        elif message.text == emailBtnText:
+            await bot.send_message(chat_id, "Введите новый email:",
+                                       reply_markup=nav.edtProfileMarkup)
+            await state.set_state(SetUserData.email_set)
+        elif message.text == phoneBtnText:
+            await bot.send_message(chat_id, "Введите новый номер телефона:",
+                                       reply_markup=nav.edtProfileMarkup)
+            await state.set_state(SetUserData.phone_set)
+        elif message.text == prevNavBtnText:
+            await bot.send_message(chat_id, "Режим работы.", reply_markup=markup)
+
+
 
 
 if __name__ == '__main__':

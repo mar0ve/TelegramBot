@@ -1,5 +1,6 @@
-from config import State, StatesGroup, types, FSMContext, db_manager, userMarkup, dp
+from config import State, StatesGroup, types, FSMContext, db_manager, dp, bot
 from text import *
+from markup import userMarkup, adminMarkup, edtProfileMarkup
 from datetime import datetime
 
 
@@ -15,7 +16,8 @@ async def process_fio_add(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['fio'] = message.text
 
-    await message.answer('Введите телефон: ')
+    chat_id = message.chat.id
+    await bot.send_message(chat_id, 'Введите телефон: ')
     await AwaitMessages.phone_add.set()
 
 
@@ -24,7 +26,8 @@ async def process_phone_add(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['phone'] = message.text
 
-    await message.answer('Введите email: ')
+    chat_id = message.chat.id
+    await bot.send_message(chat_id, 'Введите email: ')
     await AwaitMessages.email_add.set()
 
 
@@ -41,4 +44,57 @@ async def process_email_add(message: types.Message, state: FSMContext):
     email = data['email']
     db_manager.register_user(chat_id, first_name, last_name, email, phone, datetime.now(), 'user')
     await state.finish()
-    await message.answer(applyReg, reply_markup=userMarkup)
+    user_state = db_manager.is_admin(chat_id)
+    markup = userMarkup if user_state is False else adminMarkup
+    await bot.send_message(chat_id, applyReg, reply_markup=userMarkup)
+
+
+class SetUserData(StatesGroup):
+    fio_set = State()
+    email_set = State()
+    phone_set = State()
+
+
+@dp.message_handler(state=SetUserData.fio_set)
+async def process_set_fio(message: types.Message, state: FSMContext):
+    async with state.proxy() as changedData:
+        changedData['fio'] = message.text
+
+    chat_id = message.chat.id
+    full_name = changedData['fio'].split(' ')
+    first_name = full_name[0]
+    last_name = full_name[1]
+    db_manager.change_name(chat_id, first_name, last_name)
+    user_state = db_manager.is_admin(chat_id)
+    markup = userMarkup if user_state is False else adminMarkup
+    await state.finish()
+    await bot.send_message(chat_id, successChangeText, reply_markup=markup)
+
+
+@dp.message_handler(state=SetUserData.email_set)
+async def process_set_email(message: types.Message, state: FSMContext):
+    async with state.proxy() as changedData:
+        changedData['email'] = message.text
+
+    chat_id = message.chat.id
+    db_manager.change_email(chat_id, changedData['email'])
+    user_state = db_manager.is_admin(chat_id)
+    markup = userMarkup if user_state is False else adminMarkup
+    await state.finish()
+    await bot.send_message(chat_id, successChangeText, reply_markup=markup)
+
+
+@dp.message_handler(state=SetUserData.phone_set)
+async def process_set_phone(message: types.Message, state: FSMContext):
+    async with state.proxy() as changedData:
+        changedData['phone'] = message.text
+
+    chat_id = message.chat.id
+    db_manager.change_phone(chat_id, changedData['phone'])
+    user_state = db_manager.is_admin(chat_id)
+    markup = userMarkup if user_state is False else adminMarkup
+    await state.finish()
+    await bot.send_message(chat_id, successChangeText, reply_markup=markup)
+
+
+

@@ -27,3 +27,12 @@ adminMarkup = ReplyKeyboardMarkup(resize_keyboard=True).add(
         btnDataChange, btnNotification
 )
 
+# --- Edit Profile ---
+btnName = KeyboardButton(nameBtnText)
+btnEmail = KeyboardButton(emailBtnText)
+btnPhone = KeyboardButton(phoneBtnText)
+btnPrev = KeyboardButton(prevNavBtnText)
+
+edtProfileMarkup = ReplyKeyboardMarkup(resize_keyboard=True).add(
+    btnName, btnEmail, btnPhone, btnPrev,
+)
