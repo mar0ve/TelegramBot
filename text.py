@@ -2,6 +2,7 @@
 
 # --- registration ---
 regWelcome = "Для регистрации введите ваше имя и фамилию в формате:\n\nИмя Фамилия"
+regPress = "Нажмите на кнопку Регистрация"
 alreadyReg = "Вы уже зарегистрированы"
 applyReg = "Вы успешно зарегистрированы"
 
@@ -12,8 +13,6 @@ usrTypeMessage = "Статус: пользователь"
 admTypeMessage = "Статус: администратор"
 sWorkTypeMessage = "Рабочий день начат"
 eWorkTypeMessage = "Рабочий день закончен"
-
-# --- usr edit ---
 
 # --- BUTTONS ---
 

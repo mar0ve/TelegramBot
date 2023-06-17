@@ -1,5 +1,8 @@
-from config import State, StatesGroup, types, FSMContext, db_manager, dp, bot
+from config import db_manager, dp, bot
 from text import *
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters.state import StatesGroup, State
+from aiogram import types
 from markup import userMarkup, adminMarkup, edtProfileMarkup, departmentsMarkup
 from datetime import datetime
 

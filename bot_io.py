@@ -1,5 +1,8 @@
+from aiogram import executor, types
+from aiogram.dispatcher import FSMContext
+
 import markup as nav
-from config import *
+from config import dp, db_manager, bot
 from text import *
 from fsm import AwaitMessages, SetUserData
 import func
@@ -12,7 +15,7 @@ async def handle_start(message: types.Message):
 
     if user is None:
         await bot.send_message(chat_id,
-                               'Нажмите на кнопку Регистрация', reply_markup=nav.regMarkup)
+                               regPress, reply_markup=nav.regMarkup)
 
     else:
         await bot.send_message(chat_id,
@@ -85,7 +88,8 @@ async def handle_message(message: types.Message, state: FSMContext):
             users = db_manager.show_all_users(dep1BtnText)
 
             if not users:
-                await bot.send_message(chat_id, f"Сотрудников из отдела - {dep1BtnText} не найдено.", reply_markup=markup)
+                await bot.send_message(chat_id, f"Сотрудников из отдела - {dep1BtnText} не найдено.",
+                                       reply_markup=markup)
             else:
                 report = func.set_department_logs(users)
                 await bot.send_message(chat_id, report, reply_markup=markup)
@@ -94,7 +98,8 @@ async def handle_message(message: types.Message, state: FSMContext):
             users = db_manager.show_all_users(dep2BtnText)
 
             if not users:
-                await bot.send_message(chat_id, f"Сотрудников из отдела - {dep2BtnText} не найдено.", reply_markup=markup)
+                await bot.send_message(chat_id, f"Сотрудников из отдела - {dep2BtnText} не найдено.",
+                                       reply_markup=markup)
             else:
                 report = func.set_department_logs(users)
                 await bot.send_message(chat_id, report, reply_markup=markup)
@@ -103,7 +108,8 @@ async def handle_message(message: types.Message, state: FSMContext):
             users = db_manager.show_all_users(dep3BtnText)
 
             if not users:
-                await bot.send_message(chat_id, f"Сотрудников из отдела - {dep3BtnText} не найдено.", reply_markup=markup)
+                await bot.send_message(chat_id, f"Сотрудников из отдела - {dep3BtnText} не найдено.",
+                                       reply_markup=markup)
             else:
                 report = func.set_department_logs(users)
                 await bot.send_message(chat_id, report, reply_markup=markup)
