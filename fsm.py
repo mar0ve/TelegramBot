@@ -3,7 +3,7 @@ from text import *
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram import types
-from markup import userMarkup, adminMarkup, edtProfileMarkup, departmentsMarkup
+from markup import userMarkup, adminMarkup, edtProfileMarkup, departmentsMarkup, regDepartmentsMarkup
 from datetime import datetime
 
 
@@ -41,7 +41,7 @@ async def process_email_add(message: types.Message, state: FSMContext):
         data['email'] = message.text
 
     chat_id = message.chat.id
-    await bot.send_message(chat_id, 'Выберите отдел: ', reply_markup=departmentsMarkup)
+    await bot.send_message(chat_id, 'Выберите отдел: ', reply_markup=regDepartmentsMarkup)
     await AwaitMessages.department_add.set()
 
 
