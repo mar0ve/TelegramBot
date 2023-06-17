@@ -44,5 +44,5 @@ btnDep2 = KeyboardButton(dep2BtnText)
 btnDep3 = KeyboardButton(dep3BtnText)
 
 departmentsMarkup = ReplyKeyboardMarkup(resize_keyboard=True).add(
-    btnDep1, btnDep2, btnDep3,
+    btnDep1, btnDep2, btnDep3, btnPrev
 )
