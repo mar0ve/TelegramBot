@@ -108,8 +108,3 @@ async def process_set_phone(message: types.Message, state: FSMContext):
     await state.finish()
     await bot.send_message(chat_id, successChangeText, reply_markup=markup)
 
-
-
-
-
-

@@ -2,9 +2,10 @@ import markup as nav
 from config import *
 from text import *
 from fsm import AwaitMessages, SetUserData
+import func
 
 
-@dp.message_handler(commands=['start',])
+@dp.message_handler(commands=['start', ])
 async def handle_start(message: types.Message):
     chat_id = message.chat.id
     user = db_manager.check_user(chat_id)
@@ -20,7 +21,6 @@ async def handle_start(message: types.Message):
 
 @dp.message_handler()
 async def handle_message(message: types.Message, state: FSMContext):
-    #define user
     chat_id = message.chat.id
     user = db_manager.check_user(chat_id)
 
@@ -44,27 +44,13 @@ async def handle_message(message: types.Message, state: FSMContext):
                                    reply_markup=markup)
 
         elif message.text == repBtnText:
-            work_logs = db_manager.print_info(chat_id)
-            report = "Отчет о пребывании на работе:\n\n"
-            for log in work_logs:
-                first_name = log[0]
-                last_name = log[1]
-                start_time = log[2]
-                end_time = log[3] if log[3] is not None else "В процессе"
-                report += f"Имя: {first_name}\nФамилия: {last_name}\nНачало дня: {start_time}\nКонец дня: {end_time}\n\n"
+            report = func.print_per_logs(chat_id)
 
             await bot.send_message(chat_id, report,
                                    reply_markup=markup)
 
         elif message.text == fRepBtnText:
-            work_logs = db_manager.print_all_info()
-            report = "Отчет о пребывании на работе всех сотрудников:\n\n"
-            for log in work_logs:
-                first_name = log[0]
-                last_name = log[1]
-                start_time = log[2]
-                end_time = log[3] if log[3] is not None else "В процессе"
-                report += f"Имя: {first_name}\nФамилия: {last_name}\nНачало дня: {start_time}\nКонец дня: {end_time}\n\n"
+            report = func.print_all_logs()
 
             await bot.send_message(chat_id, report,
                                    reply_markup=markup)
@@ -77,6 +63,7 @@ async def handle_message(message: types.Message, state: FSMContext):
 
         elif message.text == dataChangeBtnText:
             await bot.send_message(chat_id, "Режим редактирования.", reply_markup=nav.edtProfileMarkup)
+
         elif message.text == nameBtnText:
             await bot.send_message(chat_id, "Введите новые Имя и Фамилию (Имя Фамилия):",
                                        reply_markup=nav.edtProfileMarkup)
@@ -86,6 +73,7 @@ async def handle_message(message: types.Message, state: FSMContext):
             await bot.send_message(chat_id, "Введите новый email:",
                                        reply_markup=nav.edtProfileMarkup)
             await state.set_state(SetUserData.email_set)
+
         elif message.text == phoneBtnText:
             await bot.send_message(chat_id, "Введите новый номер телефона:",
                                        reply_markup=nav.edtProfileMarkup)
@@ -96,37 +84,28 @@ async def handle_message(message: types.Message, state: FSMContext):
         elif message.text == dep1BtnText:
             users = db_manager.show_all_users(dep1BtnText)
 
-            report = 'Отчет о сотрудниках отдела: \n'
             if not users:
                 await bot.send_message(chat_id, f"Сотрудников из отдела - {dep1BtnText} не найдено.", reply_markup=markup)
             else:
-                for usr in users:
-                    first_name, last_name, email, phone, usr_state = usr
-                    report += f'Имя и Фамилия: {first_name} {last_name}\nEmail: {email}\nТелефон: {phone}\nСтатус: {usr_state}\n'
+                report = func.set_department_logs(users)
                 await bot.send_message(chat_id, report, reply_markup=markup)
 
         elif message.text == dep2BtnText:
             users = db_manager.show_all_users(dep2BtnText)
 
-            report = 'Отчет о сотрудниках отдела: \n'
             if not users:
                 await bot.send_message(chat_id, f"Сотрудников из отдела - {dep2BtnText} не найдено.", reply_markup=markup)
             else:
-                for usr in users:
-                    first_name, last_name, email, phone, usr_state = usr
-                    report += f'Имя и Фамилия: {first_name} {last_name}\nEmail: {email}\nТелефон: {phone}\nСтатус: {usr_state}\n'
+                report = func.set_department_logs(users)
                 await bot.send_message(chat_id, report, reply_markup=markup)
 
         elif message.text == dep3BtnText:
             users = db_manager.show_all_users(dep3BtnText)
 
-            report = 'Отчет о сотрудниках отдела: \n'
             if not users:
                 await bot.send_message(chat_id, f"Сотрудников из отдела - {dep3BtnText} не найдено.", reply_markup=markup)
             else:
-                for usr in users:
-                    first_name, last_name, email, phone, usr_state = usr
-                    report += f'Имя и Фамилия: {first_name} {last_name}\nEmail: {email}\nТелефон: {phone}\nСтатус: {usr_state}\n'
+                report = func.set_department_logs(users)
                 await bot.send_message(chat_id, report, reply_markup=markup)
 
         elif message.text == emplInfoBtnText:

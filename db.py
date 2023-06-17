@@ -29,11 +29,9 @@ class ManageDatabase:
 
     def query(self, sql, values=None):
         try:
-            #cursor = self.conn.cursor()
             self.cursor.execute(sql, values)
         except (AttributeError, mysql.connector.OperationalError):
             self.connect()
-            #cursor = self.conn.cursor()
             self.cursor.execute(sql, values)
 
     def register_user(self, chat_id, first_name, last_name, email, phone, reg_date, usr_state, department):
