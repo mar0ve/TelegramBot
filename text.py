@@ -32,6 +32,7 @@ endBtnText = 'Закончить работу'
 usrProfBtnText = 'Профиль сотрудника'
 dataChangeBtnText = 'Редактировать профиль'
 notificationsBtnText = 'Настройка напоминаний(не работает)'
+emplInfoBtnText = 'Информация о сотрудниках'
 
 # --- usr edit ---
 nameBtnText = 'Имя Фамилия'

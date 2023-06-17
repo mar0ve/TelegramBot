@@ -139,4 +139,12 @@ class ManageDatabase:
         self.conn.commit()
         self.disconnect()
 
+    def show_all_users(self):
+        self.connect()
+        sql = "SELECT first_name, last_name, email, phone, usr_state FROM users"
+        self.query(sql)
+        users = self.cursor.fetchall()
+        self.disconnect()
+        return users
+
 

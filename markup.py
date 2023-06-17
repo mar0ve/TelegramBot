@@ -14,17 +14,18 @@ btnReportAll = KeyboardButton(fRepBtnText)
 btnUsrProfile = KeyboardButton(usrProfBtnText)
 btnDataChange = KeyboardButton(dataChangeBtnText)
 btnNotification = KeyboardButton(notificationsBtnText)
+btnAllUsers = KeyboardButton(emplInfoBtnText)
 
 userMarkup = ReplyKeyboardMarkup(resize_keyboard=True).row(
     btnStartWork, btnEndWork).row(
     btnReport, btnUsrProfile).row(
-    btnDataChange, btnNotification)
+    btnDataChange, btnAllUsers)
 
 adminMarkup = ReplyKeyboardMarkup(resize_keyboard=True).add(
     btnStartWork, btnEndWork).row(
         btnReport, btnReportAll).add(
         btnUsrProfile).row(
-        btnDataChange, btnNotification
+        btnDataChange, btnAllUsers
 )
 
 # --- Edit Profile ---
