@@ -89,13 +89,44 @@ async def handle_message(message: types.Message, state: FSMContext):
         elif message.text == prevNavBtnText:
             await bot.send_message(chat_id, "Режим работы.", reply_markup=markup)
 
+        elif message.text == dep1BtnText:
+            users = db_manager.show_all_users(dep1BtnText)
+
+            report = 'Отчет о сотрудниках отдела: \n'
+            if not users:
+                await bot.send_message(chat_id, f"Сотрудников из отдела - {dep1BtnText} не найдено.", reply_markup=markup)
+            else:
+                for usr in users:
+                    first_name, last_name, email, phone, usr_state = usr
+                    report += f'Имя и Фамилия: {first_name} {last_name}\nEmail: {email}\nТелефон: {phone}\nСтатус: {usr_state}\n'
+                await bot.send_message(chat_id, report, reply_markup=markup)
+
+        elif message.text == dep2BtnText:
+            users = db_manager.show_all_users(dep2BtnText)
+
+            report = 'Отчет о сотрудниках отдела: \n'
+            if not users:
+                await bot.send_message(chat_id, f"Сотрудников из отдела - {dep2BtnText} не найдено.", reply_markup=markup)
+            else:
+                for usr in users:
+                    first_name, last_name, email, phone, usr_state = usr
+                    report += f'Имя и Фамилия: {first_name} {last_name}\nEmail: {email}\nТелефон: {phone}\nСтатус: {usr_state}\n'
+                await bot.send_message(chat_id, report, reply_markup=markup)
+
+        elif message.text == dep3BtnText:
+            users = db_manager.show_all_users(dep3BtnText)
+
+            report = 'Отчет о сотрудниках отдела: \n'
+            if not users:
+                await bot.send_message(chat_id, f"Сотрудников из отдела - {dep3BtnText} не найдено.", reply_markup=markup)
+            else:
+                for usr in users:
+                    first_name, last_name, email, phone, usr_state = usr
+                    report += f'Имя и Фамилия: {first_name} {last_name}\nEmail: {email}\nТелефон: {phone}\nСтатус: {usr_state}\n'
+                await bot.send_message(chat_id, report, reply_markup=markup)
+
         elif message.text == emplInfoBtnText:
-            report = 'Отчет о сотрудниках: \n'
-            users = db_manager.show_all_users()
-            for usr in users:
-                first_name, last_name, email, phone, usr_state = usr
-                report += f'Имя и Фамилия: {first_name} {last_name}\nEmail: {email}\nТелефон: {phone}\nСтатус: {usr_state}\n'
-            await bot.send_message(chat_id, report, reply_markup=markup)
+            await bot.send_message(chat_id, "Выберите отдел: ", reply_markup=nav.departmentsMarkup)
 
 
 if __name__ == '__main__':

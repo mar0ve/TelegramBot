@@ -39,3 +39,8 @@ nameBtnText = 'Имя Фамилия'
 emailBtnText = 'Email'
 phoneBtnText = 'Телефон'
 successChangeText = 'Данные успешно обновлены'
+
+# --- departments ---
+dep1BtnText = 'Отдел 1'
+dep2BtnText = 'Отдел 2'
+dep3BtnText = 'Отдел 3'

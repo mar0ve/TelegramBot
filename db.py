@@ -3,14 +3,14 @@ from datetime import datetime
 
 
 class ManageDatabase:
-    conn = None
-    cursor = None
 
     def __init__(self, host, user, password, database):
         self.host = host
         self.user = user
         self.password = password
         self.database = database
+        self.conn = None
+        self.cursor = None
 
     def connect(self):
         self.conn = mysql.connector.connect(
@@ -36,11 +36,11 @@ class ManageDatabase:
             #cursor = self.conn.cursor()
             self.cursor.execute(sql, values)
 
-    def register_user(self, chat_id, first_name, last_name, email, phone, reg_date, usr_state):
+    def register_user(self, chat_id, first_name, last_name, email, phone, reg_date, usr_state, department):
         self.connect()
-        sql = """INSERT INTO users (chat_id, first_name, last_name, email, phone, reg_date, usr_state) 
-                    VALUES (%s, %s, %s, %s, %s, %s, %s)"""
-        values = (chat_id, first_name, last_name, email, phone, reg_date, usr_state,)
+        sql = """INSERT INTO users (chat_id, first_name, last_name, email, phone, reg_date, usr_state, department) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
+        values = (chat_id, first_name, last_name, email, phone, reg_date, usr_state, department)
         self.query(sql, values)
         self.conn.commit()
         self.disconnect()
@@ -139,10 +139,11 @@ class ManageDatabase:
         self.conn.commit()
         self.disconnect()
 
-    def show_all_users(self):
+    def show_all_users(self, department):
         self.connect()
-        sql = "SELECT first_name, last_name, email, phone, usr_state FROM users"
-        self.query(sql)
+        sql = "SELECT first_name, last_name, email, phone, usr_state FROM users WHERE department = %s"
+        values = (department,)
+        self.query(sql, values)
         users = self.cursor.fetchall()
         self.disconnect()
         return users
