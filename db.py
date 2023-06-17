@@ -36,13 +36,23 @@ class ManageDatabase:
             #cursor = self.conn.cursor()
             self.cursor.execute(sql, values)
 
-    def register_user(self, chat_id, first_name, last_name):
+    def register_user(self, chat_id, first_name, last_name, email, phone, reg_date, usr_state):
         self.connect()
-        sql = "INSERT INTO users (chat_id, first_name, last_name) VALUES (%s, %s, %s)"
-        values = (chat_id, first_name, last_name)
+        sql = """INSERT INTO users (chat_id, first_name, last_name, email, phone, reg_date, usr_state) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+        values = (chat_id, first_name, last_name, email, phone, reg_date, usr_state,)
         self.query(sql, values)
         self.conn.commit()
         self.disconnect()
+
+    def user_profile(self, chat_id):
+        self.connect()
+        sql = "SELECT * FROM users WHERE chat_id = %s"
+        values = (chat_id,)
+        self.query(sql, values)
+        profile = self.cursor.fetchone()
+        self.disconnect()
+        return profile
 
     def start_workday(self, user_id):
         self.connect()
@@ -95,3 +105,14 @@ class ManageDatabase:
         user = self.cursor.fetchone()
         self.disconnect()
         return user
+
+    def is_admin(self, chat_id):
+        self.connect()
+        sql = "SELECT (usr_state) FROM users WHERE chat_id = %s"
+        values = (chat_id,)
+        self.query(sql, values)
+        check = self.cursor.fetchone()
+        self.disconnect()
+        return True if check == 'admin' else False
+
+

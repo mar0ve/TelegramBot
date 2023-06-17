@@ -11,4 +11,19 @@ btnStartWork = KeyboardButton(startBtnText)
 btnEndWork = KeyboardButton(endBtnText)
 btnReport = KeyboardButton(repBtnText)
 btnReportAll = KeyboardButton(fRepBtnText)
-userMarkup = ReplyKeyboardMarkup(resize_keyboard=True).add(btnStartWork, btnEndWork, btnReport, btnReportAll)
+btnUsrProfile = KeyboardButton(usrProfBtnText)
+btnDataChange = KeyboardButton(dataChangeBtnText)
+btnNotification = KeyboardButton(notificationsBtnText)
+
+userMarkup = ReplyKeyboardMarkup(resize_keyboard=True).row(
+    btnStartWork, btnEndWork).row(
+    btnReport, btnUsrProfile).row(
+    btnDataChange, btnNotification)
+
+adminMarkup = ReplyKeyboardMarkup(resize_keyboard=True).add(
+    btnStartWork, btnEndWork).row(
+        btnReport, btnReportAll).add(
+        btnUsrProfile).row(
+        btnDataChange, btnNotification
+)
+

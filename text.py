@@ -7,11 +7,25 @@ applyReg = "Вы успешно зарегистрированы"
 
 # --- report ---
 reportMessage = "Отчет о пребывании на работе:\n\n"
-
+usrTypeMessage = "Статус: пользователь"
+admTypeMessage = "Статус: администратор"
+sWorkTypeMessage = "Рабочий день начат"
+eWorkTypeMessage = "Рабочий день закончен"
 
 # --- BUTTONS ---
+
+# --- navigation btn ---
+prevNavBtnText = 'Назад'
+nextNavBtnText = 'Далее'
+
+# --- registration btn ---
 regBtnText = 'Регистрация'
-startBtnText = 'Начать работу'
-endBtnText = 'Закончить работу'
+
+# --- users btn ---
 repBtnText = 'Отчет'
 fRepBtnText = 'Полный отчет'
+startBtnText = 'Начать работу'
+endBtnText = 'Закончить работу'
+usrProfBtnText = 'Профиль сотрудника'
+dataChangeBtnText = 'Редактирование записей'
+notificationsBtnText = 'Настройка напоминаний'

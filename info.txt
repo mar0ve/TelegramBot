@@ -1,0 +1,13 @@
+'''
+pythonanywhere.com
+user: mar0ve
+pass: ?
+email: marveevram@yandex.ru
+
+db:
+user = mar0ve
+host = mar0ve.mysql.pythonanywhere-services.com
+password = fucku1234
+database = mar0ve$users_db
+token = '6257891124:AAEmx-mDLRp_jjG7EeAVOpOkHdtWHonFhHg'
+'''
