@@ -1,7 +1,23 @@
 # TelegramBot 
 Бот предназначен для учета рабочего времени сотрудников компании. 
-Для запуска необходим пакет aiogram и mysql-connector-python
-  > pip install aiogram mysql-connector-python
+
+**Для запуска необходим MySQL сервер с созданной БД **telegram_bot** **
+**Таблицы в БД:** 
+-**users**
+  > id, chat_id, first_name, last_name, email, phone, reg_data, usr_state, department
+-**works_log**
+  > id, user_id, start_time, end_time
+
+**Создать файл **.env** и вписать в него строку:
+  > TOKEN = "your_telegram_token"
+
+**В файле **config.py** изменить db_connection данные на свои
+
+Для быстрой установки всех пакетов
+  > pip install -r requirements.txt
+
+Старт:
+  > python bot_io.py
 
 ## Управление
 Для начала нужно нажать кнопку **Начать**

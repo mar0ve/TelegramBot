@@ -3,3 +3,4 @@ setup/
 .env
 __pycache__/
 .idea/
+Dockerfile
