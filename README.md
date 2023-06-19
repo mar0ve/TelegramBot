@@ -3,12 +3,33 @@
 
 Для запуска необходим MySQL сервер с созданной БД **telegram_bot**.
 
-Таблицы в БД:
--**users**
-  > id, chat_id, first_name, last_name, email, phone, reg_data, usr_state, department
--**works_log**
-  > id, user_id, start_time, end_time
+MySQL:
 
+``` sql
+-- Создание БД telegram_bot
+CREATE DATABASE IF NOT EXISTS telegram_bot;
+USE telegram_bot;
+-- Создание таблицы users
+CREATE TABLE IF NOT EXISTS users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    chat_id INT,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    email VARCHAR(255),
+    phone VARCHAR(255),
+    reg_date DATETIME,
+    use_state VARCHAR(255),
+    department VARCHAR(255)
+);
+
+-- Создание таблицы work_logs
+CREATE TABLE IF NOT EXISTS work_logs (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    start_time DATETIME,
+    end_time DATETIME
+);
+```
 Создать файл **.env** и вписать в него строку:
   > TOKEN = "your_telegram_token"
 
